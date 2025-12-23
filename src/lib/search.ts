@@ -83,18 +83,13 @@ export const searchContacts = ({
 
   const results = contacts
     .map((contact) => {
-      const baseScore = normalizedQuery
-        ? computeContactScore(contact, normalizedQuery)
-        : 1;
+      const baseScore = normalizedQuery ? computeContactScore(contact, normalizedQuery) : 1;
       const matchesQuery = normalizedQuery ? baseScore > 0 : true;
-      const matchesDepartment = department
-        ? contact.department === department
-        : true;
+      const matchesDepartment = department ? contact.department === department : true;
       const matchesLocation = location ? contact.location === location : true;
       const matchesAll = matchesQuery && matchesDepartment && matchesLocation;
 
-      const boostedScore =
-        baseScore +
+      const boostedScore = baseScore +
         (department && contact.department === department ? 1 : 0) +
         (location && contact.location === location ? 1 : 0);
 
@@ -110,8 +105,7 @@ export const searchContacts = ({
       return a.contact.lastName.localeCompare(b.contact.lastName);
     });
 
-  const trimmed =
-    limit && limit > 0 ? results.slice(0, limit) : results.slice();
+  const trimmed = limit && limit > 0 ? results.slice(0, limit) : results.slice();
 
   return trimmed.map((entry) => entry.contact);
 };
